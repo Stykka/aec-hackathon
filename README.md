@@ -11,3 +11,7 @@ Ask an admin to make you an admin.
 ## Rhino.Compute Server
 What is Rhino Compute?
 https://developer.rhino3d.com/guides/compute/features/
+
+## Rhino.Compute x Speckle
+Getting a stream using an accountId and token instead of having to be logged in.  
+See implementation in GetStreamWithToken.gh
