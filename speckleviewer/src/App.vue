@@ -8,9 +8,9 @@
     <h2>Select material</h2>
     <select v-model="selectedMaterial">
       <option disabled value="">Please select one</option>
-      <option>A</option>
-      <option>B</option>
-      <option>C</option>
+      <option v-for="material in Object.keys(materialList)">
+        {{ material }}
+      </option>
     </select>
     <span>Selected material: {{ selectedMaterial }}</span>
     <button @click="assignMaterial(selectedMaterial, $event)">Assign</button>
@@ -34,12 +34,17 @@
 <script lang="ts">
 import { SelectionEvent, SpeckleObject, Viewer, ViewerEvent } from "@speckle/viewer";
 import { onMounted, ref } from "vue";
+import materials from '../materials.json'
 
 export default {
   data() {
     return {
+      materialList: [],
       selectedMaterial: 'A'
     }
+  },
+  created() {
+    this.materialList = materials
   },
   setup() {
     const canvas = ref<HTMLElement>();
@@ -49,7 +54,8 @@ export default {
     const id = ref()
 
     function assignMaterial(material, event) {
-      
+      //TODO update speckle object?
+      console.log(material)
     }
 
     onMounted(async () => {
