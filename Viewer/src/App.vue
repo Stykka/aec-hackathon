@@ -34,10 +34,17 @@
  
   <div ref="canvas" class="canvas p-2"></div>
 
+  <table class="justify-between flex flex-auto">
+      <th>Global Warming Potential
+        <td>{{ gwp }}</td>
+      </th>
+    </table>
+
 </template>
 
 <script lang="ts">
 import { SelectionEvent, SpeckleObject, Viewer, ViewerEvent } from "@speckle/viewer";
+import ObjectLoader from '@speckle/objectloader';
 import { onMounted, ref } from "vue";
 import materials from '../materials.json'
 
@@ -54,13 +61,26 @@ export default {
   setup() {
     const canvas = ref<HTMLElement>();
     const objectUrl = ref("https://dev.stykka.com/streams/d73703f251/objects/edfb08a14c58f39d0d9d23a5d675b299");
+    const selectedObject = ref()
+    selectedObject.value = null
     const material = ref()
     const volume = ref()
     const id = ref()
 
-    function assignMaterial(material, event) {
+    const gwp = ref(0)
+
+    async function assignMaterial(m, event) {
       //TODO update speckle object?
-      console.log(material)
+      console.log(m)
+      selectedObject.value["material"] = m
+      material.value = m
+      gwp.value += materials[m]
+      console.log(selectedObject.value)
+
+      const loader = new ObjectLoader( { serverUrl: "https://dev.stykka.com/", streamId: "d73703f251", objectId: selectedObject.value.id } )
+      let obj = await loader.getAndConstructObject((e) => console.log('Progress', e))
+      obj["material"] = m
+      console.log(obj["material"])
     }
 
     onMounted(async () => {
@@ -81,6 +101,7 @@ export default {
           viewer.zoom(objectId)
           viewer.highlightObjects(objectId)
           let obj = selectionInfo.hits[0].object
+          selectedObject.value = obj
           id.value = obj.id
           volume.value = obj.volume
           material.value = obj.material
@@ -89,6 +110,7 @@ export default {
           // No object clicked. Restore focus to entire scene
           viewer.zoom()	
           viewer.resetHighlight()
+          selectedObject.value = null
           id.value = null
           volume.value = null
           material.value = null
@@ -101,9 +123,11 @@ export default {
       assignMaterial,
       canvas,
       objectUrl,
+      selectedObject,
       volume,
       id,
-      material
+      material,
+      gwp
     }
   }
 }
