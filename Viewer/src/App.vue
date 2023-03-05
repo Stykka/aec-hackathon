@@ -1,20 +1,25 @@
 <template>
   <div
-    class="flex flex-col mx-auto justify-between h-screen w-screen max-h-screen overflow-hidden"
+    class="flex flex-col items-start overflow-hidden"
   >
-    <h1>Speckle Viewer</h1>
-    <label for="objectUrl">Object URL: </label>
-    <input type="text" id="objectUrl" :value="objectUrl">
-    <h2>Select material</h2>
-    <select v-model="selectedMaterial">
+    <h1 class="text-2xl font-semibold text-white">Speckle Viewer</h1>
+
+    <label for="objectUrl" class="pb-1">Object URL</label>
+    <input type="text" class="mb-2 hover:select-all text-xs text-gray-500" id="objectUrl" :value="objectUrl">
+    
+    <label for="selectedMaterial" class="pb-1">Component Material</label>
+    <select v-model="selectedMaterial" class="mb-2 hover:select-all text-xs text-gray-500" id="selectedMaterial">
       <option disabled value="">Please select one</option>
       <option v-for="material in Object.keys(materialList)">
         {{ material }}
       </option>
     </select>
-    <span>Selected material: {{ selectedMaterial }}</span>
-    <button @click="assignMaterial(selectedMaterial, $event)">Assign</button>
-    <table>
+
+    <span class="mt-2 mb-1 hover:select-all font-semibold text-sm text-gray-400">Currently selected: {{ selectedMaterial }}</span>
+
+    <button type="button" class="bg-yellow-500 text-gray-800 rounded-lg p-1 pl-4 pr-4 mt-1 mb-3 ..." @click="assignMaterial(selectedMaterial, $event)">Assign</button>
+    
+    <table class="justify-between flex flex-auto">
       <th>Material
         <td>{{ material }}</td>
       </th>
