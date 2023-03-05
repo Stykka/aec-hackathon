@@ -2,7 +2,7 @@
 Stykka repository for the AEC hackathon 2023.
 
 ## Plan
-- [x] Keep the dev Speckle server running for a few weeks. [https://dev.stykka.com/authn/login]
+- [x] Keep the dev Speckle server running for a few weeks. https://dev.stykka.com/authn/login
 - [x] Mars
 - [ ] Jupiter
 - [ ] Saturn
